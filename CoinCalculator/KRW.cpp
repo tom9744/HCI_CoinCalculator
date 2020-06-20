@@ -24,7 +24,7 @@ int KRW::getRandom(int radius)
 
 // Hue 값을 사용하지 않고 오직 반지름 만으로 판별하는 메서드
 // 보고서 작성 시, 정확도에 대한 Benchmark로 사용할 예정.
-void KRW::calcSumAmount(Mat& coinImg, Mat& maskImg, vector<Vec3f> coins, float& sumAmount)
+void KRW::calcSumAmount(Mat& coinImg, vector<Vec3f> coins, float& sumAmount)
 {
     for (size_t i = 0; i < coins.size(); i++)
     {
@@ -42,33 +42,33 @@ void KRW::calcSumAmount(Mat& coinImg, Mat& maskImg, vector<Vec3f> coins, float& 
 
         if (radius >= 55)
         {
-            // circle(coinImg, center, radius, Scalar(0, 0, 255), 2, 8, 0);
-            sumAmount += 1;
-        }
-        else if (radius >= 50 && radius <= 53)
-        {
             // circle(coinImg, center, radius, Scalar(0, 225, 255), 2, 8, 0);
-            sumAmount += 0.25;
+            sumAmount += 500;
         }
-        else if (radius >= 37 && radius <= 39)
+        else if (radius >= 49 && radius <= 54)
         {
             // circle(coinImg, center, radius, Scalar(255, 222, 255), 2, 8, 0);
-            sumAmount += 0.10;
+            sumAmount += 100;
         }
-        else if (radius >= 45 && radius <= 47)
+        else if (radius >= 44 && radius <= 48)
         {
             // circle(coinImg, center, radius, Scalar(255, 0, 255), 2, 8, 0);
-            sumAmount += 0.05;
+            sumAmount += 50;
         }
-        else if (radius > 39 && radius <= 41)
+        else if (radius >= 36 && radius <= 41)
+        {
+            // circle(coinImg, center, radius, Scalar(0, 0, 255), 2, 8, 0);
+            sumAmount += 10;
+        }
+        else if (radius > 45 && radius <= 52)
         {
             // circle(coinImg, center, radius, Scalar(255, 0, 0), 2, 8, 0);
-            sumAmount += 0.01;
+            sumAmount += 10;
         }
     }
 }
 
-void KRW::improvedCalcSumAmount(Mat& coinImg, Mat& maskImg, vector<Vec3f> silverCoins, vector<Vec3f> copperCoins, float& sumAmount)
+void KRW::improvedCalcSumAmount(Mat& coinImg, vector<Vec3f> silverCoins, vector<Vec3f> copperCoins, float& sumAmount)
 {
     /**********************************************/
     /*        제한 요소에 따른 각 동전의 값       */
@@ -91,7 +91,7 @@ void KRW::improvedCalcSumAmount(Mat& coinImg, Mat& maskImg, vector<Vec3f> silver
             // circle(coinImg, center, radius, Scalar(0, 225, 255), 2, 8, 0);
             sumAmount += 500;
         }
-        else if (radius >= 49 && radius <= 54)
+        else if (radius >= 49 && radius <= 53)
         {
             // circle(coinImg, center, radius, Scalar(255, 222, 255), 2, 8, 0);
             sumAmount += 100;
@@ -157,9 +157,9 @@ void KRW::classificationByColor(Mat hsvImg, vector<Vec3f> coins, vector<Vec3f>& 
 
         try
         {
-            // 동전 내부의 50개 임의 위치에서의 Hue값의 평균을 계산한다.
+            // 동전 내부의 20개 임의 위치에서의 Hue값의 평균을 계산한다.
             // 임의의 위치가 고르게 분포할 수 있도록 Mersenne Twister 난수 발생기를 사용한다.
-            for (size_t i = 0; i < 50; i++)
+            for (size_t i = 0; i < 20; i++)
             {
                 int randX = roiCenterX + getRandom(radius);
                 int randY = roiCenterY + getRandom(radius);
@@ -171,9 +171,9 @@ void KRW::classificationByColor(Mat hsvImg, vector<Vec3f> coins, vector<Vec3f>& 
                 accumulatedHueValue += (int)ROI.at<Vec3b>(randY, randX)[0];
             }
             // 평균값을 계산한다.
-            averageHueValue = accumulatedHueValue / 50;
+            averageHueValue = accumulatedHueValue / 20;
 
-            cout << averageHueValue << endl;
+            // cout << averageHueValue << endl;
         }
         // Out-of-Boundary Exception에 대한 처리
         catch (Exception err)
@@ -182,7 +182,7 @@ void KRW::classificationByColor(Mat hsvImg, vector<Vec3f> coins, vector<Vec3f>& 
             continue;
         }
 
-        // 50개 임의 픽셀의 평균 Hue 값이 50보다 크면 은색으로 판단
+        // 20개 임의 픽셀의 평균 Hue 값이 35보다 크면 구리 동전이 아닌 것으로 판단
         if (averageHueValue > 35)
             silverCoins.push_back(coins[i]);
         else

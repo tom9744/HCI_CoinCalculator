@@ -88,6 +88,12 @@ int main()
 
         // imshow("HSV", hsvImg);
 
+        // HSV 영상을 H, S, V 채널 영상으로 분리한다.
+        // vector<Mat> channels;
+        // split(hsvImg, channels);
+
+        // imshow("H Channel", channels[0]);
+
         if (mode == 1)
         {
             USD dollar;
@@ -96,8 +102,7 @@ int main()
             dollar.classificationByColor(hsvImg, coins, silverCoins, copperCoins);
 
             // 인식된 동전들의 액수 합을 계산한다.
-            // calcSumAmount(coinImg, maskImg, coins, sumAmount);
-            dollar.improvedCalcSumAmount(coinImg, maskImg, silverCoins, copperCoins, sumAmount);
+            dollar.improvedCalcSumAmount(coinImg, silverCoins, copperCoins, sumAmount);
 
             postProc.printUSDResult(coinImg, sumAmount);
         }
@@ -110,8 +115,10 @@ int main()
             won.classificationByColor(hsvImg, coins, silverCoins, copperCoins);
 
             // 인식된 동전들의 액수 합을 계산한다.
-            // calcSumAmount(coinImg, maskImg, coins, sumAmount);
-            won.improvedCalcSumAmount(coinImg, maskImg, silverCoins, copperCoins, sumAmount);
+            won.improvedCalcSumAmount(coinImg, silverCoins, copperCoins, sumAmount);
+            
+            // Benchmark 알고리즘
+            // won.calcSumAmount(coinImg, coins, sumAmount);
 
             postProc.printKRWResult(coinImg, sumAmount);
         }
