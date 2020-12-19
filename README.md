@@ -20,4 +20,5 @@ Hough Circle Transform을 이용해 영상 내 존재하는 원형 객체를 검
 - 한화 500원, 100원, 50원, 10원 동전
 - 미화 1달러, 50센트, 25센트, 10센트, 1센트 동전 
 
+![구현 결과물](https://github.com/tom9744/HCI_CoinCalculator/blob/master/result.png)
 
