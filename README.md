@@ -7,18 +7,31 @@
 머신러닝 관련 기법을 제외하고 순수한 영상처리 기법으로만 접근할 수 있는 주제를 선정하였다.
 
 ## 구현 방법
-OpenCV에서 제공하는 Image Binarization, Canny Edge Detector 등을 이용해 영상 전처리를 진행하고,
+OpenCV에서 제공하는 Image Binarization, Canny Edge Detector, Morphology 등을 이용해 영상 전처리를 진행하고,
 Hough Circle Transform을 이용해 영상 내 존재하는 원형 객체를 검출하는 방법으로 접근하였다. 
 
 이후 cvtColor 메서드를 이용해 BGR 색상공간의 영상을 HSV 색상공간으로 변환하여 Hue Value를 추출하고,
 검출된 원형 객체의 반지름을 이용해 동전을 분류하여 최종적으로 영상 내 동전의 가치 합을 산출하였다.
 
+## 구현 환경
+Visual Studio 2019 (C++)
+OpenCV 3.4.10
+GeForce GTX 1660 Super 6GB
+
+## 제한 요소
+1. 광원
+- 태양광이 일부 차단된 실내 (4500~5400K)
+- 단일 실내 조명 (400lm, 4000K)
+2. 카메라
+- Samsung SPC-A1200MB (640x480)
+- 피사체와의 거리 수직 20cm
+
 ## 구현 결과
 한화, 미화 동전에 대한 동전 자동 계수기를 구현하였다.
 
 본 프로그램에서 지원하는 동전은 다음과 같다.
-- 한화 500원, 100원, 50원, 10원 동전
-- 미화 1달러, 50센트, 25센트, 10센트, 1센트 동전 
+- 한화 500원, 100원, 50원, 10원 동전 **(Press 'W')**
+- 미화 1달러, 50센트, 25센트, 10센트, 1센트 동전 **(Press 'D')**
 
 ![구현 결과물](https://github.com/tom9744/HCI_CoinCalculator/blob/master/result.png)
 
